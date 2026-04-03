@@ -59,6 +59,12 @@ const Bio = () => {
                                     className="w-full h-full object-cover grayscale-[30%] group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-110"
                                 />
                             </div>
+
+                            {/* Name Label */}
+                            <div className="mt-8 text-center w-full">
+                                <h4 className="text-3xl font-serif text-muted-black tracking-wide">Mona</h4>
+                                <div className="w-8 h-[1.5px] bg-olive/40 mx-auto mt-2 underline-offset-8"></div>
+                            </div>
                         </motion.div>
                     </motion.div>
                 </div>
