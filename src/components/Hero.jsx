@@ -1,214 +1,149 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 const Hero = () => {
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [scrolled, setScrolled] = useState(false);
-
-    useEffect(() => {
-        const handleScroll = () => setScrolled(window.scrollY > 50);
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
-
-    const navLinks = [
-        { name: "Background", href: "#bio" },
-        { name: "Philosophy", href: "#about" },
-        { name: "Classes", href: "#classes" },
-        { name: "Retreats", href: "#sessions" },
-        { name: "Schedule", href: "#workshops" },
-    ];
-
-    const scrollToTop = (e) => {
-        e.preventDefault();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
-
     return (
         <>
-            {/* ─── Premium Navigation ─── */}
-            <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled
-                ? 'bg-white/95 backdrop-blur-xl shadow-[0_1px_20px_rgba(0,0,0,0.06)] border-b border-black/5'
-                : 'bg-white'
-                }`}>
-                <div className="max-w-7xl mx-auto px-6 lg:px-16 flex items-center justify-between h-[72px]">
-                    {/* Logo + Brand */}
-                    <button onClick={scrollToTop} className="flex items-center space-x-3 focus:outline-none group">
-                        <img src="/meditation-icon.svg" className="w-8 h-8 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3" alt="Logo" />
-                        <div className="flex flex-col">
-                            <span className="text-muted-black font-semibold text-base tracking-[0.15em] uppercase leading-tight">Art of Movement</span>
-                            <span className="text-olive text-[10px] tracking-[0.3em] uppercase font-medium hidden sm:block">Yoga & Mindfulness · Malta</span>
-                        </div>
-                    </button>
-
-                    {/* Nav Links — Center */}
-                    <div className="hidden lg:flex items-center space-x-10 text-[13px] uppercase tracking-[0.2em] text-muted-black/60 font-medium">
-                        {navLinks.map((link) => (
-                            <a
-                                key={link.name}
-                                href={link.href}
-                                className="relative py-2 hover:text-muted-black transition-colors duration-400 after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-0 after:h-[2px] after:bg-olive after:transition-all after:duration-500 hover:after:w-full"
-                            >
-                                {link.name}
-                            </a>
-                        ))}
-                    </div>
-
-                    {/* CTA — Right */}
-                    <a
-                        href="https://wa.me/35677418079"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="hidden md:inline-flex items-center bg-olive hover:bg-olive-light text-white px-7 py-3 rounded-full text-xs uppercase tracking-[0.2em] font-semibold transition-all duration-500 shadow-[0_4px_20px_rgba(107,158,120,0.3)] hover:shadow-[0_8px_30px_rgba(107,158,120,0.4)] hover:-translate-y-0.5"
-                    >
-                        Book a Session
-                    </a>
-
-                    {/* Hamburger — Mobile */}
-                    <button
-                        onClick={() => setIsMenuOpen(!isMenuOpen)}
-                        className="lg:hidden flex flex-col justify-center items-center w-10 h-10 space-y-1.5 z-50 group focus:outline-none"
-                        aria-label="Toggle Menu"
-                    >
-                        <motion.span animate={isMenuOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }} className="w-6 h-[1.5px] bg-muted-black block transition-all origin-center" />
-                        <motion.span animate={isMenuOpen ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }} className="w-6 h-[1.5px] bg-muted-black block transition-all" />
-                        <motion.span animate={isMenuOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }} className="w-6 h-[1.5px] bg-muted-black block transition-all origin-center" />
-                    </button>
-                </div>
-            </nav>
-
-            {/* Mobile Menu */}
-            <AnimatePresence>
-                {isMenuOpen && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.3 }}
-                        className="fixed inset-0 z-40 bg-white backdrop-blur-xl lg:hidden flex flex-col items-center justify-center"
-                    >
-                        <div className="flex flex-col items-center space-y-6">
-                            {navLinks.map((link, i) => (
-                                <motion.a
-                                    key={link.name}
-                                    href={link.href}
-                                    onClick={() => setIsMenuOpen(false)}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: i * 0.08 }}
-                                    className="text-muted-black text-2xl font-light tracking-[0.25em] uppercase hover:text-olive transition-colors"
-                                >
-                                    {link.name}
-                                </motion.a>
-                            ))}
-                            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="pt-4">
-                                <a
-                                    href="https://wa.me/35677418079"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    onClick={() => setIsMenuOpen(false)}
-                                    className="px-8 py-3.5 bg-olive text-white rounded-full font-semibold tracking-[0.2em] text-xs uppercase shadow-lg"
-                                >
-                                    Book a Session
-                                </a>
-                            </motion.div>
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-
-            {/* ─── Hero Section ─── */}
+            {/* ─── Hero Section with background image + Discipline Selector ─── */}
             <section id="home" className="relative w-full min-h-screen overflow-hidden pt-[72px]">
                 {/* Background Image — full bleed */}
                 <div className="absolute inset-0 w-full h-full z-0">
                     <img
                         src="/hero-bg.jpg"
-                        alt="Yoga on the beach — Art of Movement"
+                        alt="Art of Movement — Yoga & Dance"
                         className="w-full h-full object-cover object-[center_25%] md:object-center scale-[1.02]"
                     />
-                    {/* Subtle warm tint */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-cream/50 via-transparent to-transparent"></div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-white/50 via-transparent to-white/20"></div>
+                    {/* Warm tint overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-cream/60 via-cream/30 to-transparent"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-white/70 via-transparent to-white/20"></div>
+                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white/90"></div>
                 </div>
 
-                {/* Hero Content */}
-                <div className="relative z-20 w-full max-w-7xl mx-auto px-6 lg:px-16 flex items-center min-h-[calc(100vh-72px)]">
-                    {/* Text Card — Premium frosted panel */}
+                {/* Hero Content — brand + discipline choice */}
+                <div className="relative z-20 w-full max-w-7xl mx-auto px-6 lg:px-16 flex flex-col justify-center min-h-[calc(100vh-72px)]">
+
+                    {/* Brand Headline */}
                     <motion.div
-                        initial={{ opacity: 0, x: -40 }}
-                        animate={{ opacity: 1, x: 0 }}
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 1, ease: [0.25, 0.46, 0.45, 0.94] }}
-                        className="relative bg-white/80 backdrop-blur-2xl rounded-[2rem] p-10 md:p-14 lg:p-16 max-w-lg shadow-[0_20px_80px_rgba(0,0,0,0.08)] border border-white/60"
+                        className="text-center mb-14"
                     >
-                        {/* Accent line */}
-                        <div className="w-10 h-1 bg-olive rounded-full mb-8"></div>
-
-                        <h1 className="font-serif text-muted-black text-[2.5rem] md:text-[3.2rem] lg:text-[3.6rem] leading-[1.1] mb-6 tracking-tight">
-                            Achieve your<br />goals with<br />
-                            <span className="italic text-olive">mindful movement</span>
+                        <h1 className="font-serif text-muted-black text-[2.2rem] md:text-[3.2rem] lg:text-[4rem] leading-[1.1] mb-4 tracking-tight">
+                            The Art of <span className="italic text-olive">Movement</span>
                         </h1>
-
-                        <p className="text-muted-black/50 text-base md:text-lg font-light leading-relaxed mb-10 max-w-sm">
-                            Discover a healthier, stronger, and more mindful you — one step at a time, based right here in Malta.
+                        <p className="text-muted-black/40 text-sm md:text-base font-light tracking-[0.3em] uppercase">
+                            Yoga · Dance · Mindfulness
                         </p>
-
-                        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                            <a
-                                href="https://wa.me/35677418079"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="group inline-flex items-center bg-olive hover:bg-olive-light text-white px-8 py-4 rounded-full text-xs uppercase tracking-[0.2em] font-semibold transition-all duration-500 shadow-[0_4px_20px_rgba(107,158,120,0.3)] hover:shadow-[0_8px_30px_rgba(107,158,120,0.4)] hover:-translate-y-0.5"
-                            >
-                                Book a Session
-                                <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
-                            </a>
-                            <a
-                                href="#about"
-                                className="inline-flex items-center border border-muted-black/15 hover:border-olive text-muted-black/70 hover:text-olive px-8 py-4 rounded-full text-xs uppercase tracking-[0.2em] font-semibold transition-all duration-500"
-                            >
-                                Learn More
-                            </a>
-                        </div>
-
-                        {/* Social proof / trust marker */}
-                        <div className="mt-10 pt-8 border-t border-muted-black/5 flex items-center gap-3">
-                            <div className="flex -space-x-2">
-                                <div className="w-8 h-8 rounded-full bg-olive/20 border-2 border-white flex items-center justify-center text-[10px] font-bold text-olive">A</div>
-                                <div className="w-8 h-8 rounded-full bg-warm-glow/20 border-2 border-white flex items-center justify-center text-[10px] font-bold text-warm-glow">M</div>
-                                <div className="w-8 h-8 rounded-full bg-olive/20 border-2 border-white flex items-center justify-center text-[10px] font-bold text-olive">S</div>
-                            </div>
-                            <p className="text-xs text-muted-black/40 font-medium">Trusted by 200+ students across Malta</p>
-                        </div>
                     </motion.div>
-                </div>
 
-                {/* Floating Badges — right side, staggered */}
-                <div className="absolute inset-0 z-10 pointer-events-none hidden md:block">
+                    {/* Discipline Cards */}
+                    <div className="flex flex-col md:flex-row items-stretch gap-6 md:gap-8 max-w-4xl mx-auto w-full">
+
+                        {/* ─── Yoga Card ─── */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 40 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.9, delay: 0.3 }}
+                            className="flex-1"
+                        >
+                            <Link
+                                to="/yoga"
+                                className="group relative overflow-hidden rounded-[2rem] bg-white/70 backdrop-blur-xl border border-olive/15 p-8 md:p-10 flex flex-col justify-between min-h-[280px] md:min-h-[320px] cursor-pointer transition-all duration-700 hover:shadow-[0_24px_80px_rgba(107,158,120,0.2)] hover:-translate-y-2 block h-full"
+                            >
+                                {/* Background glow */}
+                                <div className="absolute top-0 right-0 w-2/3 h-2/3 bg-olive/8 blur-3xl rounded-full transform translate-x-1/4 -translate-y-1/4 pointer-events-none group-hover:bg-olive/15 transition-all duration-700"></div>
+
+                                <div className="relative z-10">
+                                    <div className="w-12 h-12 rounded-xl bg-olive/12 flex items-center justify-center mb-6 group-hover:bg-olive/20 transition-colors duration-500">
+                                        <svg className="w-6 h-6 text-olive" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 3c-1.2 0-2 .8-2 2s.8 2 2 2 2-.8 2-2-.8-2-2-2zM8 21v-5l-2-3 2-4h8l2 4-2 3v5" />
+                                        </svg>
+                                    </div>
+                                    <h3 className="text-2xl md:text-3xl font-serif text-muted-black mb-2">
+                                        <span className="italic text-olive">Yoga</span>
+                                    </h3>
+                                    <p className="text-muted-black/45 font-light leading-relaxed text-sm md:text-base mb-6">
+                                        Breath, alignment & mindful movement — find strength and stillness on the mat.
+                                    </p>
+                                </div>
+
+                                <div className="relative z-10 flex items-center text-olive font-semibold text-xs uppercase tracking-[0.2em] group-hover:translate-x-2 transition-transform duration-500">
+                                    Explore
+                                    <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                                </div>
+
+                                <div className="absolute inset-0 rounded-[2rem] border-2 border-olive/0 group-hover:border-olive/20 transition-all duration-700 pointer-events-none"></div>
+                            </Link>
+                        </motion.div>
+
+                        {/* ─── Dance Card — Elegant Rose & Lavender ─── */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 40 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.9, delay: 0.5 }}
+                            className="flex-1"
+                        >
+                            <Link
+                                to="/dance"
+                                className="group relative overflow-hidden rounded-[2rem] min-h-[280px] md:min-h-[320px] cursor-pointer transition-all duration-700 hover:-translate-y-2 hover:shadow-[0_24px_60px_rgba(180,130,200,0.25)] block h-full"
+                            >
+                                {/* Soft rose-lavender gradient base */}
+                                <div className="absolute inset-0 bg-gradient-to-br from-[#fce4ec] via-[#f3e5f5] to-[#e8eaf6] rounded-[2rem] overflow-hidden">
+                                    {/* Fluid blush blobs */}
+                                    <div className="absolute top-[-15%] left-[-10%] w-[65%] h-[65%] bg-[#f8bbd0] rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-pulse-slow"></div>
+                                    <div className="absolute top-[15%] right-[-15%] w-[70%] h-[70%] bg-[#ce93d8] rounded-full mix-blend-multiply filter blur-3xl opacity-35 animate-float"></div>
+                                    <div className="absolute bottom-[-15%] left-[10%] w-[60%] h-[60%] bg-[#b39ddb] rounded-full mix-blend-multiply filter blur-3xl opacity-35 animate-float-delayed"></div>
+                                </div>
+                                {/* Glass overlay */}
+                                <div className="absolute inset-0 bg-white/40 backdrop-blur-[14px] rounded-[2rem] border border-white/50 group-hover:border-white/80 transition-colors duration-700"></div>
+                                {/* Inner glow */}
+                                <div className="absolute inset-0 bg-gradient-to-b from-white/50 to-transparent opacity-50 rounded-[2rem] pointer-events-none"></div>
+
+                                <div className="relative z-10 p-8 md:p-10 flex flex-col justify-between h-full">
+                                    <div>
+                                        <div className="w-12 h-12 rounded-xl bg-white/50 backdrop-blur-xl flex items-center justify-center mb-6 group-hover:bg-white/70 transition-colors duration-500 border border-white/60 shadow-sm">
+                                            <svg className="w-6 h-6 text-[#7b1fa2]" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M9 3.5a2.5 2.5 0 115 0 2.5 2.5 0 01-5 0zM5.5 21l3-7.5L12 16l3.5-2.5L18.5 21M7 10l5 3 5-3" />
+                                            </svg>
+                                        </div>
+
+                                        <h3 className="text-2xl md:text-3xl font-serif text-[#4a1a6b] mb-2">
+                                            <span className="italic">Dance</span>
+                                        </h3>
+                                        <p className="text-[#5c3a6e]/70 font-light leading-relaxed text-sm md:text-base mb-6">
+                                            Movement, expression & connection — contemporary performances and floor-based classes.
+                                        </p>
+                                    </div>
+
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center text-[#7b1fa2] font-semibold text-xs uppercase tracking-[0.2em] group-hover:translate-x-2 transition-transform duration-500">
+                                            Explore
+                                            <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                                        </div>
+                                        <div className="hidden md:flex items-center gap-1.5 opacity-30">
+                                            <div className="w-1 h-1 rounded-full bg-[#ce93d8]"></div>
+                                            <div className="w-1 h-1 rounded-full bg-[#ce93d8]"></div>
+                                            <div className="w-1.5 h-1.5 rounded-full bg-[#7b1fa2]"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="absolute inset-0 rounded-[2rem] border-2 border-[#ce93d8]/0 group-hover:border-[#ce93d8]/25 transition-all duration-700 pointer-events-none"></div>
+                            </Link>
+                        </motion.div>
+
+                    </div>
+
+                    {/* Trust marker */}
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
                         transition={{ duration: 1, delay: 1.2 }}
-                        className="absolute top-[20%] right-[6%] glass-panel-light rounded-2xl px-5 py-3 animate-float"
+                        className="text-center mt-12"
                     >
-                        <span className="text-[11px] text-muted-black/70 tracking-wider font-semibold uppercase">↗ Flexibility</span>
-                    </motion.div>
-
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 1, delay: 1.5 }}
-                        className="absolute top-[48%] right-[3%] glass-panel-light rounded-2xl px-5 py-3 animate-float-delayed"
-                    >
-                        <span className="text-[11px] text-muted-black/70 tracking-wider font-semibold uppercase">↗ Balance</span>
-                    </motion.div>
-
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 1, delay: 1.8 }}
-                        className="absolute bottom-[18%] right-[10%] glass-panel-light rounded-2xl px-5 py-3 animate-float"
-                    >
-                        <span className="text-[11px] text-muted-black/70 tracking-wider font-semibold uppercase">↗ Mindfulness</span>
+                        <p className="text-xs text-muted-black/30 font-medium tracking-wider">Trusted by 200+ students across Malta</p>
                     </motion.div>
                 </div>
             </section>
